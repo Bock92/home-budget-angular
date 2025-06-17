@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@plugin 'tailwindcss-primeui';
+
+/** TailwindCSS / Angular / PrimeNG */
+@layer base, components, primeng, utilities;
+
+@theme inline {
+  --color-base: oklch(25.3267% 0.015896 252.417568);
+}
+
+body,
+html {
+  @apply bg-gray-800;
+}
