@@ -5,9 +5,9 @@ export type Category = StrapiRecord & {
 };
 
 export type CategoryState = {
-  data: Category[];
+  categories: Category[];
 };
 
 export const initialCategoryState: CategoryState = {
-  data: [],
+  categories: [],
 };

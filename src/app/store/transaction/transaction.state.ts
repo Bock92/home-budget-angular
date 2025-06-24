@@ -1,11 +1,12 @@
 import { StrapiRecord } from '../../model/strapi.model';
-import { CategoryState } from '../category/category.state';
+import { Category } from '../category/category.state';
 import { ExpenseTypes } from '../expense-type/expense-type.state';
 
 export type Transaction = StrapiRecord & {
   description: string;
   amount: number;
-  category: CategoryState;
+  dateTransaction: string;
+  category: Category;
   expense_Type: ExpenseTypes;
 };
 

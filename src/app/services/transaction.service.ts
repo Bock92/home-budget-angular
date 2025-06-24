@@ -11,7 +11,9 @@ export class TransactionService {
   readonly #api: string = '/api/transactions';
 
   getTransactions(): Observable<StrapiResponse<Transaction[]>> {
-    return this.#http.get<StrapiResponse<Transaction[]>>(this.#api);
+    return this.#http.get<StrapiResponse<Transaction[]>>(
+      `${this.#api}?populate=*`
+    );
   }
 
   addTransaction(

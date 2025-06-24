@@ -16,7 +16,7 @@ export const CategoryStore = signalStore(
   withState(initialCategoryState),
   withComputed((store) => {
     const $categoryList = computed(() =>
-      store.data().map((category: Category) => ({
+      store.categories().map((category: Category) => ({
         label: category.name,
         value: category.id,
       }))
@@ -27,7 +27,7 @@ export const CategoryStore = signalStore(
     const loadCategories = async () => {
       const result = await lastValueFrom(categoryService.getCategories());
       patchState(store, {
-        data: result.data,
+        categories: result.data,
       });
     };
 
