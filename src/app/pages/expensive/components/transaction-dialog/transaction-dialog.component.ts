@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FloatLabel } from 'primeng/floatlabel';
+import { Component, inject, Signal } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumber } from 'primeng/inputnumber';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from 'primeng/select';
 import { DatePicker } from 'primeng/datepicker';
+import { CategoryStore } from '../../../../store/category/category.store';
+import { ExpenseTypesStore } from '../../../../store/expense-type/expense-type.store';
+import { TransactionRequestPayload } from '../../../../model/transaction.model';
+import { TransactionStore } from '../../../../store/transaction/transaction.store';
 
 @Component({
   selector: 'app-transaction-dialog',
@@ -22,46 +30,42 @@ import { DatePicker } from 'primeng/datepicker';
   ],
 })
 export class TransactionDialogComponent {
+  readonly #categoryStore = inject(CategoryStore);
+  readonly #expenseTypesStore = inject(ExpenseTypesStore);
+  readonly #transactionStore = inject(TransactionStore);
+
   form = new FormGroup({
-    description: new FormControl(''),
-    amount: new FormControl(),
-    typeExpensive: new FormControl(),
-    category: new FormControl(''),
-    date: new FormControl(new Date()),
+    description: new FormControl('', { validators: [Validators.required] }),
+    amount: new FormControl(0, { validators: [Validators.required] }),
+    typeExpensive: new FormControl(null, { validators: [Validators.required] }),
+    category: new FormControl(null, { validators: [Validators.required] }),
+    date: new FormControl(new Date(), { validators: [Validators.required] }),
     userId: new FormControl({ value: '1234', disabled: true }),
   });
 
-  expensiveList = [
-    {
-      label: 'Spesa',
-      value: 1,
-    },
-    {
-      label: 'Entrata',
-      value: 2,
-    },
-    {
-      label: 'Rimborso',
-      value: 3,
-    },
-  ];
-
-  categoryList = [
-    {
-      label: 'House',
-      value: 1,
-    },
-    {
-      label: 'Entrata',
-      value: 2,
-    },
-    {
-      label: 'Rimborso',
-      value: 3,
-    },
-  ];
+  $categoryList: Signal<{ label: string; value: number }[]> =
+    this.#categoryStore.$categoryList;
+  $expensiveList = this.#expenseTypesStore.$expenseTypesList;
 
   submit() {
-    console.log(this.form.value);
+    if (this.form.valid) {
+      const { description, amount, typeExpensive, category, date } =
+        this.form.value!;
+      const payload: TransactionRequestPayload = {
+        data: {
+          dateTransaction: date!.toISOString(),
+          description: description!,
+          amount: amount!,
+          category: {
+            connect: [category!],
+          },
+          expense_type: {
+            connect: [typeExpensive!],
+          },
+        },
+      };
+
+      this.#transactionStore.addTransaction(payload);
+    }
   }
 }
