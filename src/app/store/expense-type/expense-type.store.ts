@@ -1,11 +1,28 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { initialExpenseTypes } from './expense-type.state';
-import { inject } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import { initialExpenseTypes, ExpenseTypes } from './expense-type.state';
+import { computed, inject } from '@angular/core';
 import { ExpenseTypesService } from '../../services/expense-type.service';
 import { lastValueFrom } from 'rxjs';
 
-export const expenseTypes = signalStore(
+export const ExpenseTypesStore = signalStore(
+  { providedIn: 'root' },
   withState(initialExpenseTypes),
+  withComputed((store) => {
+    const $expenseTypesList = computed(() =>
+      store.data().map((expenseType: ExpenseTypes) => ({
+        label: expenseType.name,
+        value: expenseType.id,
+      }))
+    );
+    return { $expenseTypesList };
+  }),
   withMethods((store, expenseTypesService = inject(ExpenseTypesService)) => {
     const loadExpenseTypes = async () => {
       const result = await lastValueFrom(
@@ -16,5 +33,12 @@ export const expenseTypes = signalStore(
       });
     };
     return { loadExpenseTypes };
+  }),
+  withHooks({
+    onInit(store) {
+      store.loadExpenseTypes();
+    },
   })
 );
+
+export type ExpenseTypesStore = InstanceType<typeof ExpenseTypesStore>;
