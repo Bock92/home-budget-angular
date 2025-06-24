@@ -38,6 +38,7 @@ export class ExpensivePageComponent {
   openTransactionDialog() {
     const ref = this.#dialogService.open(TransactionDialogComponent, {
       header: 'Add Transaction',
+      closable: true,
     });
 
     ref.onClose.pipe(take(1)).subscribe();
