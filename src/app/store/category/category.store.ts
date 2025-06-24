@@ -1,11 +1,28 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { initialCategoryState } from './category.state';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import { Category, initialCategoryState } from './category.state';
 import { CategoryService } from '../../services/category.service';
-import { inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 
-export const categoryStore = signalStore(
+export const CategoryStore = signalStore(
+  { providedIn: 'root' },
   withState(initialCategoryState),
+  withComputed((store) => {
+    const $categoryList = computed(() =>
+      store.data().map((category: Category) => ({
+        label: category.name,
+        value: category.id,
+      }))
+    );
+    return { $categoryList };
+  }),
   withMethods((store, categoryService = inject(CategoryService)) => {
     const loadCategories = async () => {
       const result = await lastValueFrom(categoryService.getCategories());
@@ -17,5 +34,12 @@ export const categoryStore = signalStore(
     return {
       loadCategories,
     };
+  }),
+  withHooks({
+    onInit(store) {
+      store.loadCategories();
+    },
   })
 );
+
+export type CategoryStore = InstanceType<typeof CategoryStore>;
