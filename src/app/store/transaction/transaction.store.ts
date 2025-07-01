@@ -23,7 +23,7 @@ export const TransactionStore = signalStore(
         transactionService.getTransactions(store.filter())
       );
       patchState(store, {
-        data: result.data,
+        data: [...result.data],
       });
     };
 
