@@ -10,10 +10,16 @@ export type Transaction = StrapiRecord & {
   expense_Type: ExpenseTypes;
 };
 
+export type TransactionFilter = {
+  today?: Date;
+};
+
 export type TransactionState = {
   data: Transaction[];
+  filter: TransactionFilter;
 };
 
 export const initialTransactionState: TransactionState = {
   data: [],
+  filter: {},
 };

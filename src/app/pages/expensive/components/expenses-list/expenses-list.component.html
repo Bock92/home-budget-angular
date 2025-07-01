@@ -1,11 +1,24 @@
-@let list = $list();
+@let list = $list(); @let expensiveTime = $expensiveTime();
+
 <div class="flex justify-evenly items-center pb-4">
-  <p-button label="Maggio" [rounded]="true" icon="pi pi-arrow-left" />
-  <span class="text-xl">Giugno</span>
-  <p-button label="Luglio" [rounded]="true" icon="pi pi-arrow-right" />
+  <p-button
+    [label]="(expensiveTime.prev | date : 'MMMM')!"
+    [rounded]="true"
+    icon="pi pi-arrow-left"
+    (click)="onPrev($event)"
+  />
+  <span class="text-xl">{{ expensiveTime.current | date : "MMMM YYYY" }}</span>
+  <p-button
+    [label]="(expensiveTime.next | date : 'MMMM')!"
+    [rounded]="true"
+    icon="pi pi-arrow-right"
+    (click)="onNext($event)"
+  />
 </div>
 <div class="flex flex-col gap-2">
-  @for(expense of list; track expense) {
+  @if(list.length === 0) {
+  <span class="text-center">Nessun Transazione</span>
+  } @for(expense of list; track expense) {
   <p-card>
     <div class="flex items-center">
       <div class="flex flex-col flex-1/2 gap-2">

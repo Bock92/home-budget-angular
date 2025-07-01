@@ -1,5 +1,14 @@
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { initialTransactionState } from './transaction.state';
+import {
+  patchState,
+  signalStore,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import {
+  initialTransactionState,
+  TransactionFilter,
+} from './transaction.state';
 import { inject } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { lastValueFrom } from 'rxjs';
@@ -10,7 +19,9 @@ export const TransactionStore = signalStore(
   withState(initialTransactionState),
   withMethods((store, transactionService = inject(TransactionService)) => {
     const loadTransactions = async () => {
-      const result = await lastValueFrom(transactionService.getTransactions());
+      const result = await lastValueFrom(
+        transactionService.getTransactions(store.filter())
+      );
       patchState(store, {
         data: result.data,
       });
@@ -24,11 +35,35 @@ export const TransactionStore = signalStore(
         loadTransactions();
       }
     };
+
+    const updateFilter = (filter: TransactionFilter) => {
+      patchState(store, {
+        filter: {
+          ...store.filter(),
+          ...filter,
+        },
+      });
+    };
+
     return {
       loadTransactions,
       addTransaction,
+      updateFilter,
     };
-  })
+  }),
+  withHooks((store) => ({
+    onInit() {
+      const date = new Date();
+      date.setHours(0, 0, 0, 0);
+
+      patchState(store, {
+        filter: {
+          ...store.filter(),
+          today: date,
+        },
+      });
+    },
+  }))
 );
 
 export type TransactionStore = InstanceType<typeof TransactionStore>;
