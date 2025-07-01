@@ -6,6 +6,8 @@ import { Button } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { take } from 'rxjs';
 import { TransactionDialogComponent } from './components/transaction-dialog/transaction-dialog.component';
+import { TransactionRequestPayload } from '../../model/transaction.model';
+import { TransactionStore } from '../../store';
 
 interface Expense {
   dateRange: string;
@@ -29,6 +31,7 @@ interface Expense {
 })
 export class ExpensivePageComponent {
   readonly #dialogService = inject(DialogService);
+  readonly #transactionStore = inject(TransactionStore);
   expenses: Expense[] = [];
 
   constructor() {
@@ -39,8 +42,15 @@ export class ExpensivePageComponent {
     const ref = this.#dialogService.open(TransactionDialogComponent, {
       header: 'Add Transaction',
       closable: true,
+      closeOnEscape: true,
     });
 
-    ref.onClose.pipe(take(1)).subscribe();
+    ref.onClose
+      .pipe(take(1))
+      .subscribe((payload: TransactionRequestPayload) => {
+        if (payload) {
+          this.#transactionStore.addTransaction(payload);
+        }
+      });
   }
 }

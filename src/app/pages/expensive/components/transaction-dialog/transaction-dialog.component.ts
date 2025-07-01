@@ -14,7 +14,7 @@ import { DatePicker } from 'primeng/datepicker';
 import { CategoryStore } from '../../../../store/category/category.store';
 import { ExpenseTypesStore } from '../../../../store/expense-type/expense-type.store';
 import { TransactionRequestPayload } from '../../../../model/transaction.model';
-import { TransactionStore } from '../../../../store/transaction/transaction.store';
+import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-transaction-dialog',
@@ -32,7 +32,7 @@ import { TransactionStore } from '../../../../store/transaction/transaction.stor
 export class TransactionDialogComponent {
   readonly #categoryStore = inject(CategoryStore);
   readonly #expenseTypesStore = inject(ExpenseTypesStore);
-  readonly #transactionStore = inject(TransactionStore);
+  readonly #dialogRef = inject(DynamicDialogRef);
 
   form = new FormGroup({
     description: new FormControl('', { validators: [Validators.required] }),
@@ -65,7 +65,7 @@ export class TransactionDialogComponent {
         },
       };
 
-      this.#transactionStore.addTransaction(payload);
+      this.#dialogRef.close(payload);
     }
   }
 }
