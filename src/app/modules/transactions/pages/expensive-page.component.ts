@@ -9,7 +9,7 @@ import { TransactionDialogComponent } from '../components/transaction-dialog/tra
 import { TransactionRequestPayload } from '@model/transaction.model';
 import { HeaderComponent } from '@components/header/header.component';
 import { SidebarComponent } from '@components/sidebar/sidebar.component';
-import { TransactionStore } from '../store/transaction/transaction.store';
+import { TransactionFacade } from '../facades/transaction.facade';
 
 interface Expense {
   dateRange: string;
@@ -34,7 +34,7 @@ interface Expense {
 })
 export class ExpensivePageComponent {
   readonly #dialogService = inject(DialogService);
-  readonly #transactionStore = inject(TransactionStore);
+  readonly #transactionFacade = inject(TransactionFacade);
   expenses: Expense[] = [];
 
   constructor() {
@@ -52,7 +52,7 @@ export class ExpensivePageComponent {
       .pipe(take(1))
       .subscribe((payload: TransactionRequestPayload) => {
         if (payload) {
-          this.#transactionStore.addTransaction(payload);
+          this.#transactionFacade.addTransaction(payload);
         }
       });
   }

@@ -11,10 +11,10 @@ import { InputNumber } from 'primeng/inputnumber';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from 'primeng/select';
 import { DatePicker } from 'primeng/datepicker';
-import { CategoryStore } from '@store/category/category.store';
-import { ExpenseTypesStore } from '@store/expense-type/expense-type.store';
 import { TransactionRequestPayload } from '@model/transaction.model';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ExpenseTypeFacade } from '@facades/expense-type.facade';
+import { CategoryFacade } from '@facades/category.facade';
 
 @Component({
   selector: 'app-transaction-dialog',
@@ -30,8 +30,8 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
   ],
 })
 export class TransactionDialogComponent {
-  readonly #categoryStore = inject(CategoryStore);
-  readonly #expenseTypesStore = inject(ExpenseTypesStore);
+  readonly #categoryFacade = inject(CategoryFacade);
+  readonly #expenseTypesFacade = inject(ExpenseTypeFacade);
   readonly #dialogRef = inject(DynamicDialogRef);
 
   form = new FormGroup({
@@ -44,8 +44,8 @@ export class TransactionDialogComponent {
   });
 
   $categoryList: Signal<{ label: string; value: string }[]> =
-    this.#categoryStore.$categoryList;
-  $expensiveList = this.#expenseTypesStore.$expenseTypesList;
+    this.#categoryFacade.$categoryList;
+  $expensiveList = this.#expenseTypesFacade.$expenseTypesList;
 
   submit() {
     if (this.form.valid) {

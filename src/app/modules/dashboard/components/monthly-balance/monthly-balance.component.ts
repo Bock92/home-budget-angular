@@ -2,8 +2,8 @@ import { Component, computed, inject, OnInit } from '@angular/core';
 import { Card } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 import { DatePipe, KeyValuePipe } from '@angular/common';
-import { ExpenseTypesStore } from '@store/expense-type/expense-type.store';
-import { DashboardStore } from '@modules/dashboard/store/dashboard/dashboard.store';
+import { DashboardFacade } from '@modules/dashboard/facades/dashboard.facade';
+import { ExpenseTypeFacade } from '@facades/expense-type.facade';
 
 @Component({
   selector: 'app-monthly-balance',
@@ -11,16 +11,16 @@ import { DashboardStore } from '@modules/dashboard/store/dashboard/dashboard.sto
   imports: [Card, TableModule, KeyValuePipe, DatePipe],
 })
 export class MonthlyBalanceComponent implements OnInit {
-  readonly #dashboardStore = inject(DashboardStore);
-  readonly #expenseTypeStore = inject(ExpenseTypesStore);
-  $report = this.#dashboardStore.monthlyReport;
-  $expenseTypesList = this.#expenseTypeStore.$expenseTypesList;
+  readonly #dashboardFacade = inject(DashboardFacade);
+  readonly #expenseTypeFacade = inject(ExpenseTypeFacade);
+  $report = this.#dashboardFacade.monthlyReport;
+  $expenseTypesList = this.#expenseTypeFacade.$expenseTypesList;
   $tableData = computed(() => {
     return [];
   });
 
   ngOnInit(): void {
-    this.#dashboardStore.loadMonthlyReport(new Date().toISOString());
+    this.#dashboardFacade.loadMonthlyReport(new Date().toISOString());
   }
 
   constructor() {}

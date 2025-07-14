@@ -1,5 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
-import { TransactionStore } from '@modules/transactions/store/transaction/transaction.store';
+import { TransactionFacade } from '@modules/transactions/facades/transaction.facade';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 
@@ -9,10 +9,10 @@ import { ChartModule } from 'primeng/chart';
   imports: [ChartModule, CardModule],
 })
 export class ExpensesDoughnutChartComponent {
-  readonly #transactionStore = inject(TransactionStore);
+  readonly #transactionFacade = inject(TransactionFacade);
   readonly #labels = computed(() => {
     console.log('labels');
-    const transactions = this.#transactionStore.data();
+    const transactions = this.#transactionFacade.data();
     return Array.from(
       new Set(transactions.map((transaction) => transaction.category.name))
     );
@@ -20,7 +20,7 @@ export class ExpensesDoughnutChartComponent {
 
   readonly #dataList = computed(() => {
     const labels = this.#labels();
-    const transactions = this.#transactionStore.data();
+    const transactions = this.#transactionFacade.data();
 
     const totals = labels.reduce(
       (acc: { [key: string]: number }, label: string) => {

@@ -18,7 +18,9 @@
     "target": "ES2022",
     "module": "ES2022",
     "paths": {
+      "@core/*": ["./src/app/core/*"],
       "@components/*": ["./src/app/components/*"],
+      "@facades/*": ["./src/app/facades/*"],
       "@model/*": ["./src/app/model/*"],
       "@modules/*": ["./src/app/modules/*"],
       "@services/*": ["./src/app/services/*"],
