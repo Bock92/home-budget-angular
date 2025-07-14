@@ -1,0 +1,26 @@
+@let expenseTypeList = $expenseTypesList(); @let tableData = $tableData();
+
+<p-card styleClass="h-full">
+  <ng-template #title>Saldo mensile</ng-template>
+  <ng-template #subtitle
+    >Analisi mese per mese delle tue entrate, uscite e saldo</ng-template
+  >
+  <p-table [value]="tableData">
+    <ng-template #header>
+      <tr>
+        <th>Mese</th>
+        @for(expenseType of expenseTypeList; track expenseType.value) {
+        <th>{{ expenseType.label }}</th>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #body let-row>
+      <tr>
+        <td>{{ row.date | date : "MMMM, y" }}</td>
+        @for(element of row.list | keyvalue; track element) {
+        <td>{{ element.value }}</td>
+        }
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

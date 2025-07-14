@@ -4,7 +4,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
-import { DefaultTheme } from '../theme/default.theme';
+import { DefaultTheme } from '@theme/default.theme';
 import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {

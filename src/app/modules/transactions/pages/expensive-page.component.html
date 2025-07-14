@@ -1,0 +1,40 @@
+<app-header />
+<div class="grid grid-cols-[1fr_5fr] h-[calc(100dvh-4rem)]">
+  <app-sidebar />
+  <div class="overflow-y-auto py-4 px-8">
+    <div class="flex items-center pb-4">
+      <div class="flex flex-col flex-1/2">
+        <h1 class="text-xl font-bold my-4">Expenses View</h1>
+        <h2 class="mb-4">
+          Visualizza tutte le tue transazioni effettuate durante il mese
+        </h2>
+      </div>
+      <div class="flex-1/2 flex justify-end gap-4 items-center">
+        <p-button
+          label="Importa"
+          icon="pi pi-upload"
+          [rounded]="true"
+          variant="text"
+        />
+        <p-button
+          label="Filtri"
+          icon="pi pi-filter"
+          [rounded]="true"
+          variant="text"
+        />
+        <p-button
+          label="Nuova Transazione"
+          size="large"
+          icon="pi pi-plus"
+          [rounded]="true"
+          (click)="openTransactionDialog()"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <app-expenses-doughnut-chart />
+      <app-expenses-list />
+    </div>
+  </div>
+</div>

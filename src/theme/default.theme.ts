@@ -21,14 +21,11 @@ export const DefaultTheme = definePreset(Lara, {
     card: {
       background: 'var(--color-gray-700)',
     },
-    panelmenu: {
-      panel: {
-        background: 'var(--color-gray-800)',
-      },
+    menu: {
+      background: 'transparent',
+      borderColor: 'transparent',
       item: {
-        focus: {
-          background: 'var(--color-gray-700)',
-        },
+        focusBackground: 'var(--color-gray-700)',
       },
     },
   },

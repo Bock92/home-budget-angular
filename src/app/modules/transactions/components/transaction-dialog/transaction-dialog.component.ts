@@ -11,9 +11,9 @@ import { InputNumber } from 'primeng/inputnumber';
 import { SelectButton } from 'primeng/selectbutton';
 import { Select } from 'primeng/select';
 import { DatePicker } from 'primeng/datepicker';
-import { CategoryStore } from '../../../../store/category/category.store';
-import { ExpenseTypesStore } from '../../../../store/expense-type/expense-type.store';
-import { TransactionRequestPayload } from '../../../../model/transaction.model';
+import { CategoryStore } from '@store/category/category.store';
+import { ExpenseTypesStore } from '@store/expense-type/expense-type.store';
+import { TransactionRequestPayload } from '@model/transaction.model';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
@@ -43,7 +43,7 @@ export class TransactionDialogComponent {
     userId: new FormControl({ value: '1234', disabled: true }),
   });
 
-  $categoryList: Signal<{ label: string; value: number }[]> =
+  $categoryList: Signal<{ label: string; value: string }[]> =
     this.#categoryStore.$categoryList;
   $expensiveList = this.#expenseTypesStore.$expenseTypesList;
 

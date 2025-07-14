@@ -16,3 +16,7 @@ body,
 html {
   @apply bg-gray-800;
 }
+
+body {
+  @apply overflow-hidden overscroll-y-auto dark:text-white select-none;
+}

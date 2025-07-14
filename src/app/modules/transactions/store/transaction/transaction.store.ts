@@ -10,9 +10,9 @@ import {
   TransactionFilter,
 } from './transaction.state';
 import { inject } from '@angular/core';
-import { TransactionService } from '../../services/transaction.service';
 import { lastValueFrom } from 'rxjs';
-import { TransactionRequestPayload } from '../../model/transaction.model';
+import { TransactionService } from '@services/transaction.service';
+import { TransactionRequestPayload } from '@model/transaction.model';
 
 export const TransactionStore = signalStore(
   { providedIn: 'root' },

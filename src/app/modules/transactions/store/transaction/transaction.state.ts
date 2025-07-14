@@ -1,6 +1,6 @@
-import { StrapiRecord } from '../../model/strapi.model';
-import { Category } from '../category/category.state';
-import { ExpenseTypes } from '../expense-type/expense-type.state';
+import { StrapiRecord } from '@model/strapi.model';
+import { Category } from '@store/category/category.state';
+import { ExpenseTypes } from '@store/expense-type/expense-type.state';
 
 export type Transaction = StrapiRecord & {
   description: string;

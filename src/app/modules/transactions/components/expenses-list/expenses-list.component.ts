@@ -2,9 +2,9 @@ import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { Card } from 'primeng/card';
 import { ChipModule } from 'primeng/chip';
-import { TransactionStore } from '../../../../store/transaction/transaction.store';
-import { Transaction } from '../../../../store/transaction/transaction.state';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { TransactionStore } from '@modules/transactions/store/transaction/transaction.store';
+import { Transaction } from '@modules/transactions/store/transaction/transaction.state';
 @Component({
   selector: 'app-expenses-list',
   templateUrl: './expenses-list.component.html',

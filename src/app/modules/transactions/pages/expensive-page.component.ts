@@ -1,13 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ExpensesDoughnutChartComponent } from './components/expenses-doughnut-chart/expenses-doughnut-chart.component';
-import { ExpensesListComponent } from './components/expenses-list/expenses-list.component';
+import { ExpensesDoughnutChartComponent } from '../components/expenses-doughnut-chart/expenses-doughnut-chart.component';
+import { ExpensesListComponent } from '../components/expenses-list/expenses-list.component';
 import { Button } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { take } from 'rxjs';
-import { TransactionDialogComponent } from './components/transaction-dialog/transaction-dialog.component';
-import { TransactionRequestPayload } from '../../model/transaction.model';
-import { TransactionStore } from '../../store';
+import { TransactionDialogComponent } from '../components/transaction-dialog/transaction-dialog.component';
+import { TransactionRequestPayload } from '@model/transaction.model';
+import { HeaderComponent } from '@components/header/header.component';
+import { SidebarComponent } from '@components/sidebar/sidebar.component';
+import { TransactionStore } from '../store/transaction/transaction.store';
 
 interface Expense {
   dateRange: string;
@@ -23,8 +25,9 @@ interface Expense {
     CommonModule,
     ExpensesDoughnutChartComponent,
     ExpensesListComponent,
-    ExpensesListComponent,
     Button,
+    HeaderComponent,
+    SidebarComponent,
   ],
   providers: [DialogService],
   templateUrl: './expensive-page.component.html',

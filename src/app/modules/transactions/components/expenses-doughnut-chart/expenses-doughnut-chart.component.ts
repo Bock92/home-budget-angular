@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
+import { TransactionStore } from '@modules/transactions/store/transaction/transaction.store';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { Transaction, TransactionStore } from '../../../../store';
 
 @Component({
   selector: 'app-expenses-doughnut-chart',

@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { StrapiResponse } from '../model/strapi.model';
+import { StrapiResponse } from '@model/strapi.model';
 import { Observable } from 'rxjs';
+import { TransactionRequestPayload } from '@model/transaction.model';
 import {
   Transaction,
   TransactionFilter,
-} from '../store/transaction/transaction.state';
-import { TransactionRequestPayload } from '../model/transaction.model';
+} from '@modules/transactions/store/transaction/transaction.state';
+import { MonthlyReport } from '@modules/dashboard/store/dashboard/dashboard.state';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
@@ -17,13 +18,20 @@ export class TransactionService {
     filter: TransactionFilter
   ): Observable<StrapiResponse<Transaction[]>> {
     const today = filter.today!;
-    const last = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    const start = `${filter.today!.toISOString()}`;
-    const end = `${last.toISOString()}`;
+    const last = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0
+    ).toISOString();
+    const start = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      1
+    ).toISOString();
     return this.#http.get<StrapiResponse<Transaction[]>>(
       `${
         this.#api
-      }?filters[createdAt][$gt]=${start}&filters[createdAt][$lt]=${end}&populate=*`
+      }?filters[dateTransaction][$gt]=${start}&filters[dateTransaction][$lt]=${last}&populate=*`
     );
   }
 
@@ -31,5 +39,12 @@ export class TransactionService {
     payload: TransactionRequestPayload
   ): Observable<StrapiResponse<Transaction>> {
     return this.#http.post<StrapiResponse<Transaction>>(this.#api, payload);
+  }
+
+  getMonthlyReport(date: string): Observable<StrapiResponse<MonthlyReport>> {
+    return this.#http.post<StrapiResponse<MonthlyReport>>(
+      `${this.#api}/monthly-report`,
+      { data: { currentDate: date } }
+    );
   }
 }

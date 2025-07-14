@@ -8,7 +8,7 @@ import {
 } from '@ngrx/signals';
 import { initialExpenseTypes, ExpenseTypes } from './expense-type.state';
 import { computed, inject } from '@angular/core';
-import { ExpenseTypesService } from '../../services/expense-type.service';
+import { ExpenseTypesService } from '@services/expense-type.service';
 import { lastValueFrom } from 'rxjs';
 
 export const ExpenseTypesStore = signalStore(
@@ -18,7 +18,7 @@ export const ExpenseTypesStore = signalStore(
     const $expenseTypesList = computed(() =>
       store.data().map((expenseType: ExpenseTypes) => ({
         label: expenseType.name,
-        value: expenseType.id,
+        value: expenseType.documentId,
       }))
     );
     return { $expenseTypesList };

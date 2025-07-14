@@ -1,4 +1,4 @@
-import { StrapiRecord } from '../../model/strapi.model';
+import { StrapiRecord } from '@model/strapi.model';
 
 export type ExpenseTypes = StrapiRecord & {
   name: string;
