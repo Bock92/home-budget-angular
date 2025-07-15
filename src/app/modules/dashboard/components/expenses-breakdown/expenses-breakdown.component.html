@@ -1,9 +1,11 @@
+@let tableData = $tableData();
+
 <p-card styleClass="h-full">
   <ng-template #title>Principali categorie di spesa</ng-template>
   <ng-template #subtitle
     >Breakdown delle categorie con la maggior spesa</ng-template
   >
-  <p-table [value]="expenses">
+  <p-table [value]="tableData">
     <ng-template #header>
       <tr>
         <th>Categoria</th>

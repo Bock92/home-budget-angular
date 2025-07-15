@@ -7,7 +7,10 @@ import {
   Transaction,
   TransactionFilter,
 } from '@modules/transactions/store/transaction/transaction.state';
-import { MonthlyReport } from '@modules/dashboard/store/dashboard/dashboard.state';
+import {
+  CategoryReport,
+  MonthlyReport,
+} from '@modules/dashboard/store/dashboard/dashboard.state';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
@@ -44,6 +47,15 @@ export class TransactionService {
   getMonthlyReport(date: string): Observable<StrapiResponse<MonthlyReport>> {
     return this.#http.post<StrapiResponse<MonthlyReport>>(
       `${this.#api}/monthly-report`,
+      { data: { currentDate: date } }
+    );
+  }
+
+  getReportByCategory(
+    date: string
+  ): Observable<StrapiResponse<CategoryReport>> {
+    return this.#http.post<StrapiResponse<CategoryReport>>(
+      `${this.#api}/category-report`,
       { data: { currentDate: date } }
     );
   }

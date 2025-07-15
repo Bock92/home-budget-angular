@@ -17,8 +17,19 @@ export const DashboardStore = signalStore(
       }
     };
 
+    const loadCategoryReport = async (date: string) => {
+      const result = await lastValueFrom(
+        transactionService.getReportByCategory(date)
+      );
+
+      if (result.data) {
+        patchState(store, { categoryReport: result.data });
+      }
+    };
+
     return {
       loadMonthlyReport,
+      loadCategoryReport,
     };
   })
 );

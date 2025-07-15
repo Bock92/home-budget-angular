@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { CategoryFacade } from '@facades/category.facade';
+import { DashboardFacade } from '@modules/dashboard/facades/dashboard.facade';
 import { Card } from 'primeng/card';
 import { TableModule } from 'primeng/table';
 
@@ -7,21 +9,26 @@ import { TableModule } from 'primeng/table';
   templateUrl: './expenses-breakdown.component.html',
   imports: [Card, TableModule],
 })
-export class ExpensesBreakdownComponent {
-  expenses = [
-    {
-      category: 'House',
-      total: 32143,
-    },
-    {
-      category: 'Insurance',
-      total: 45293,
-    },
-    {
-      category: 'Bill',
-      total: 20000,
-    },
-  ];
+export class ExpensesBreakdownComponent implements OnInit {
+  readonly #dashboardFacade = inject(DashboardFacade);
+  readonly #categoryFacade = inject(CategoryFacade);
 
-  constructor() {}
+  $tableData = computed(() => {
+    const report = this.#dashboardFacade.categoryReport();
+    const categoryList = this.#categoryFacade.$categoryList();
+
+    return Object.keys(report).map((keyCategory: string) => {
+      const found = categoryList.find(
+        (category) => category.value === keyCategory
+      );
+      return {
+        category: found?.label ?? '-',
+        total: report[keyCategory],
+      };
+    });
+  });
+
+  ngOnInit(): void {
+    this.#dashboardFacade.loadCategoryReport(new Date().toISOString());
+  }
 }

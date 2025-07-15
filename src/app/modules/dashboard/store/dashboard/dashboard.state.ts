@@ -4,10 +4,16 @@ export type MonthlyReport = {
   };
 };
 
+export type CategoryReport = {
+  [documentId: string]: number;
+};
+
 export type DashboardState = {
   monthlyReport: MonthlyReport;
+  categoryReport: CategoryReport;
 };
 
 export const initialDashboardState: DashboardState = {
   monthlyReport: {},
+  categoryReport: {},
 };
