@@ -16,10 +16,13 @@ export const ExpenseTypesStore = signalStore(
   withState(initialExpenseTypes),
   withComputed((store) => {
     const $expenseTypesList = computed(() =>
-      store.data().map((expenseType: ExpenseTypes) => ({
-        label: expenseType.name,
-        value: expenseType.documentId,
-      }))
+      store
+        .data()
+        .map((expenseType: ExpenseTypes) => ({
+          label: expenseType.name,
+          value: expenseType.documentId,
+        }))
+        .sort((first, second) => first.value.localeCompare(second.value))
     );
     return { $expenseTypesList };
   }),

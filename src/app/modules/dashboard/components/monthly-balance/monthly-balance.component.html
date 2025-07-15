@@ -17,7 +17,7 @@
     <ng-template #body let-row>
       <tr>
         <td>{{ row.date | date : "MMMM, y" }}</td>
-        @for(element of row.list | keyvalue; track element) {
+        @for(element of (row.list | keyvalue); track element) {
         <td>{{ element.value }}</td>
         }
       </tr>
